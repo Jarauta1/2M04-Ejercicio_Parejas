@@ -1,0 +1,67 @@
+body {
+    padding: 10px 30px;
+}
+
+.producto {
+    width: 90%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: left;
+    /*   border-bottom: 1px solid #ccc; */
+    margin-bottom: 2em;
+}
+
+.producto .info-producto {
+    display: flex;
+    flex-direction: column;
+    margin-left: 2em;
+}
+
+.producto h4 {
+    font-size: 2em;
+    font-weight: bold;
+    margin: 0;
+}
+
+.producto img {
+    max-width: 180px;
+}
+
+.formulario {
+    padding: 1em;
+    background-color: #f4f4f4;
+    margin-bottom: 1em;
+}
+
+#resultado h3 {
+    margin: 0;
+}
+
+#resultado p {
+    margin: 0 0 10px;
+}
+
+.nav-bar {
+    background-color: #333;
+    padding: 0.1em 0;
+    margin-bottom: 0.5em;
+}
+
+.nav-bar ul {
+    display: flex;
+    margin-bottom: 1em;
+}
+
+.nav-bar li {
+    margin-right: 1em;
+}
+
+.nav-bar li:hover {
+    background-color: #c00;
+}
+
+.nav-bar a {
+    color: #fff;
+    font-weight: bold;
+    text-decoration: none;
+}
