@@ -60,7 +60,7 @@ app.post("/add", function(req, res) {
     }
 })
 
-app.put("/editar", function(req.res) {
+app.put("/editar", function(req, res) {
     let seccion = req.body.seccion
     seccion = seccion.toLowerCase()
     let nombre = req.body.nombre
