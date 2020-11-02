@@ -6,6 +6,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 let almacen = require("./almacen")
+let cesta = []
 
 app.get("/almacen", function(req, res) {
     res.send(almacen)
@@ -152,12 +153,60 @@ app.delete("/borrar", function(req, res) {
         }
     }
 
-
-
-
     if (booleanProducto == false) {
         res.send({ error: true, mensaje: "No existe ese producto" })
     }
 })
+
+app.get("/cesta", function(req, res) {
+    res.send(cesta)
+})
+
+app.post("/cesta", function(req, res) {
+    let nombre = req.body.nombre
+
+    let booleanCesta = false
+
+    if (booleanCesta == false) {
+        for (let i = 0; i < almacen.armarios.length; i++) {
+            if (nombre == almacen.armarios[i].nombre) {
+                cesta.push(almacen.armarios[i])
+                booleanCesta = true
+                res.send(cesta)
+            }
+        }
+    }
+
+    if (booleanCesta == false) {
+        for (let i = 0; i < almacen.mesas.length; i++) {
+            if (nombre == almacen.mesas[i].nombre) {
+                cesta.push(almacen.mesas[i])
+                booleanCesta = true
+                res.send(cesta)
+            }
+        }
+    }
+    if (booleanCesta == false) {
+        for (let i = 0; i < almacen.sillas.length; i++) {
+            if (nombre == almacen.sillas[i].nombre) {
+                cesta.push(almacen.sillas[i])
+                booleanCesta = true
+                res.send(cesta)
+            }
+        }
+    }
+
+    if (booleanProducto == false) {
+        res.send({ error: true, mensaje: "No existe ese producto" })
+    }
+    cesta.push(carrito)
+    res.send(cesta)
+
+})
+
+
+
+
+
 
 app.listen(3000);

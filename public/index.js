@@ -3,6 +3,7 @@ let almacenTodo = "";
 function mostrarProducto(data, tipo) {
 
     for (let i = 0; i < data[tipo].length; i++) {
+
         almacenTodo += `
         <div class="producto">
         <img src="${data[tipo][i].img}" alt="${data[tipo][i].nombre}">
@@ -10,6 +11,8 @@ function mostrarProducto(data, tipo) {
         <h4>${data[tipo][i].nombre}</h4>
           <p>${data[tipo][i].descripccion}</p>
             <p>Precio: ${data[tipo][i].precio}</p>
+            <p>Stock: ${data[tipo][i].stock}</p>
+            <button onclick=addCesta("${data[tipo][i].nombre}")>Comprar</button>
             </div>
             </div>
         `
@@ -53,6 +56,7 @@ function buscarProducto() {
                                 <h4>${data[i].nombre}</h4>
                                 <p>${data[i].descripccion}</p>
                                 <p>Precio: ${data[i].precio}</p>
+                                <p>Stock: ${data[tipo][i].stock}</p>
                             </div>
                         </div>
                         `
@@ -149,5 +153,64 @@ function deleteProducto() {
             mostrarProducto(data, "mesas");
             mostrarProducto(data, "sillas");
             document.getElementById('resultado').innerHTML = almacenTodo;
+        });
+}
+
+let mensajeCesta = ""
+
+fetch('/cesta').then(function(res) {
+    return res.json();
+}).then(function(data) {
+
+    for (let i = 0; i < data.length; i++) {
+        mensajeCesta += `
+        <div class="producto">
+        <img src="${data[i].img}" alt="${data[i].nombre}">
+        <div class="info-producto">
+        <h4>${data[i].nombre}</h4>
+          <p>${data[i].descripccion}</p>
+            <p>Precio: ${data[i].precio}</p>
+            <p>Stock: ${data[i].stock}</p>
+            </div>
+            </div>
+        `
+    }
+
+    document.getElementById('cesta').innerHTML = mensajeCesta;
+})
+
+let productoCesta
+
+function addCesta(nombre) {
+
+    productoCesta = { nombre: nombre }
+
+    fetch("/cesta", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(productoCesta),
+        })
+        .then(function(res) {
+            return res.json();
+        })
+        .then(function(data) {
+            for (let i = 0; i < data.length; i++) {
+                mensajeCesta += `
+                <div class="producto">
+                <img src="${data[i].img}" alt="${data[i].nombre}">
+                <div class="info-producto">
+                <h4>${data[i].nombre}</h4>
+                  <p>${data[i].descripccion}</p>
+                    <p>Precio: ${data[i].precio}</p>
+                    <p>Stock: ${data[i].stock}</p>
+                    </div>
+                    </div>
+                `
+            }
+
+            document.getElementById('cesta').innerHTML = mensajeCesta;
+
         });
 }
