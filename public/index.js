@@ -121,11 +121,33 @@ function editProducto() {
         .then(response => response.json())
         .then(function(data) {
 
+            almacenTodo = "";
             mostrarProducto(data, "armarios");
             mostrarProducto(data, "mesas");
             mostrarProducto(data, "sillas");
-            document.getElementById('resultado').innerHTML = "";
             document.getElementById('resultado').innerHTML = almacenTodo;
 
+        });
+}
+
+function deleteProducto() {
+    let nombre = document.getElementById("nombreBorrar").value
+
+    let producto = {
+        nombre: nombre,
+    }
+
+    fetch('/borrar', {
+            method: "DELETE",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(producto)
+        })
+        .then(response => response.json())
+        .then(data => {
+            almacenTodo = "";
+            mostrarProducto(data, "armarios");
+            mostrarProducto(data, "mesas");
+            mostrarProducto(data, "sillas");
+            document.getElementById('resultado').innerHTML = almacenTodo;
         });
 }

@@ -61,9 +61,9 @@ app.put("/editar", function(req, res) {
     seccion = seccion.toLowerCase()
     let nombre = req.body.nombre
     let nombreCambiado = req.body.nombreCambiado
-    let imgCambiado = req.body.imgCambiado
-    let descripccionCambiado = req.body.descripccionCambiado
-    let precioCambiado = req.body.precioCambiado
+    let imgCambiado = req.body.img
+    let descripccionCambiado = req.body.descripccion
+    let precioCambiado = req.body.precio
 
     let booleanSeccion = false
     let booleanProducto = false
@@ -71,7 +71,7 @@ app.put("/editar", function(req, res) {
     if (seccion == "armarios") {
         for (let i = 0; i < almacen.armarios.length; i++) {
             if (nombre == almacen.armarios[i].nombre) {
-                almacen.armarios[i].nombre = nombreCambiado
+                almacen.armarios[i].nombre = nombre
                 almacen.armarios[i].img = imgCambiado
                 almacen.armarios[i].descripccion = descripccionCambiado
                 almacen.armarios[i].precio = precioCambiado
@@ -116,47 +116,48 @@ app.put("/editar", function(req, res) {
 
 })
 
-/* app.delete("/borrar", function(req, res) {
-    let seccion = req.body.seccion
-    seccion = seccion.toLowerCase()
+app.delete("/borrar", function(req, res) {
+
     let nombre = req.body.nombre
 
-    let booleanSeccion = false
+
     let booleanProducto = false
 
-    if (seccion == "armarios") {
+    if (booleanProducto == false) {
         for (let i = 0; i < almacen.armarios.length; i++) {
-            if (nombre == almacen.armarios[i].nombre)
-                almacen.armarios[i].splice(i, 1)
-            booleanProducto = true
+            if (nombre == almacen.armarios[i].nombre) {
+                almacen.armarios.splice(i, 1)
+                booleanProducto = true
+                res.send(almacen)
+            }
         }
-        booleanSeccion = true
-        res.send(almacen)
-    } else if (seccion == "mesas") {
-        for (let i = 0; i < almacen.mesas.length; i++) {
-            if (nombre == almacen.mesas[i].nombre)
-                almacen.mesas[i].splice(i, 1)
-            booleanProducto = true
-        }
-        booleanSeccion = true
-        res.send(almacen)
-    } else if (seccion == "sillas") {
-        for (let i = 0; i < almacen.sillas.length; i++) {
-            if (nombre == almacen.sillas[i].nombre)
-                almacen.sillas[i].splice(i, 1)
-            booleanProducto = true
-        }
-        booleanSeccion = true
-        res.send(almacen)
     }
 
-    if (booleanSeccion == false) {
-        res.send({ error: true, mensaje: "No existe esa seccion" })
+    if (booleanProducto == false) {
+        for (let i = 0; i < almacen.mesas.length; i++) {
+            if (nombre == almacen.mesas[i].nombre) {
+                almacen.mesas.splice(i, 1)
+                booleanProducto = true
+                res.send(almacen)
+            }
+        }
     }
+    if (booleanProducto == false) {
+        for (let i = 0; i < almacen.sillas.length; i++) {
+            if (nombre == almacen.sillas[i].nombre) {
+                almacen.sillas.splice(i, 1)
+                booleanProducto = true
+                res.send(almacen)
+            }
+        }
+    }
+
+
+
 
     if (booleanProducto == false) {
         res.send({ error: true, mensaje: "No existe ese producto" })
     }
-}) */
+})
 
 app.listen(3000);
