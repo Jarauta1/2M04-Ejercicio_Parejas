@@ -56,7 +56,7 @@ app.post("/add", function(req, res) {
 
 })
 
-/* app.put("/editar", function(req, res) {
+app.put("/editar", function(req, res) {
     let seccion = req.body.seccion
     seccion = seccion.toLowerCase()
     let nombre = req.body.nombre
@@ -70,31 +70,37 @@ app.post("/add", function(req, res) {
 
     if (seccion == "armarios") {
         for (let i = 0; i < almacen.armarios.length; i++) {
-            almacen.armarios[i].nombre = nombreCambiado
-            almacen.armarios[i].img = imgCambiado
-            almacen.armarios[i].descripccion = descripccionCambiado
-            almacen.armarios[i].precio = precioCambiado
-            booleanProducto = true
+            if (nombre == almacen.armarios[i].nombre) {
+                almacen.armarios[i].nombre = nombreCambiado
+                almacen.armarios[i].img = imgCambiado
+                almacen.armarios[i].descripccion = descripccionCambiado
+                almacen.armarios[i].precio = precioCambiado
+                booleanProducto = true
+            }
         }
         booleanSeccion = true
         res.send(almacen)
     } else if (seccion == "mesas") {
         for (let i = 0; i < almacen.mesas.length; i++) {
-            almacen.mesas[i].nombre = nombreCambiado
-            almacen.mesas[i].img = imgCambiado
-            almacen.mesas[i].descripccion = descripccionCambiado
-            almacen.mesas[i].precio = precioCambiado
-            booleanProducto = true
+            if (nombre == almacen.mesas[i].nombre) {
+                almacen.mesas[i].nombre = nombreCambiado
+                almacen.mesas[i].img = imgCambiado
+                almacen.mesas[i].descripccion = descripccionCambiado
+                almacen.mesas[i].precio = precioCambiado
+                booleanProducto = true
+            }
         }
         booleanSeccion = true
         res.send(almacen)
     } else if (seccion == "sillas") {
         for (let i = 0; i < almacen.sillas.length; i++) {
-            almacen.sillas[i].nombre = nombreCambiado
-            almacen.sillas[i].img = imgCambiado
-            almacen.sillas[i].descripccion = descripccionCambiado
-            almacen.sillas[i].precio = precioCambiado
-            booleanProducto = true
+            if (nombre == almacen.sillas[i].nombre) {
+                almacen.sillas[i].nombre = nombreCambiado
+                almacen.sillas[i].img = imgCambiado
+                almacen.sillas[i].descripccion = descripccionCambiado
+                almacen.sillas[i].precio = precioCambiado
+                booleanProducto = true
+            }
         }
         booleanSeccion = true
         res.send(almacen)
@@ -110,7 +116,7 @@ app.post("/add", function(req, res) {
 
 })
 
-app.delete("/borrar", function(req, res) {
+/* app.delete("/borrar", function(req, res) {
     let seccion = req.body.seccion
     seccion = seccion.toLowerCase()
     let nombre = req.body.nombre

@@ -1,6 +1,6 @@
 let almacenTodo = "";
 
-function mostrarProductos(data, tipo) {
+function mostrarProducto(data, tipo) {
 
     for (let i = 0; i < data[tipo].length; i++) {
         almacenTodo += `
@@ -21,9 +21,9 @@ fetch('/almacen').then(function(res) {
     return res.json();
 }).then(function(data) {
 
-    mostrarProductos(data, "armarios");
-    mostrarProductos(data, "mesas");
-    mostrarProductos(data, "sillas");
+    mostrarProducto(data, "armarios");
+    mostrarProducto(data, "mesas");
+    mostrarProducto(data, "sillas");
 
     document.getElementById('resultado').innerHTML = almacenTodo;
 })
@@ -88,10 +88,43 @@ function addProducto() {
             document.getElementById("precioProducto").value = ""
             document.getElementById("fotoProducto").value = ""
             document.getElementById("descripcionProducto").value = ""
-            mostrarProductos(data, "armarios");
-            mostrarProductos(data, "mesas");
-            mostrarProductos(data, "sillas");
+            mostrarProducto(data, "armarios");
+            mostrarProducto(data, "mesas");
+            mostrarProducto(data, "sillas");
 
+            document.getElementById('resultado').innerHTML = almacenTodo;
+
+        });
+}
+
+function editProducto() {
+    let seccion = document.getElementById("categoriasEdit").value
+    let nombre = document.getElementById("nombreEdit").value
+    let descripccion = document.getElementById("descripcionEdit").value
+    let img = document.getElementById("fotoEdit").value
+    let precio = parseInt(document.getElementById("precioEdit").value)
+
+    let producto = {
+        seccion: seccion,
+        nombre: nombre,
+        descripccion: descripccion,
+        img: img,
+        precio: precio
+    }
+
+
+    fetch('/editar', {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(producto)
+        })
+        .then(response => response.json())
+        .then(function(data) {
+
+            mostrarProducto(data, "armarios");
+            mostrarProducto(data, "mesas");
+            mostrarProducto(data, "sillas");
+            document.getElementById('resultado').innerHTML = "";
             document.getElementById('resultado').innerHTML = almacenTodo;
 
         });
