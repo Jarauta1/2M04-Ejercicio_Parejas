@@ -2,6 +2,37 @@ body {
     padding: 10px 30px;
 }
 
+h1,
+h2,
+h3,
+h4,
+p {
+    margin: 0;
+}
+
+button {
+    background-color: #69c;
+    padding: .4em 1em;
+    border: 0;
+    color: #fff;
+    font-size: 0.7em;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+button:hover {
+    background-color: #669;
+}
+
+.inline {
+    display: flex;
+    align-items: center;
+}
+
+.row {
+    margin-bottom: .8em;
+}
+
 .producto {
     width: 90%;
     margin: 0 auto;
@@ -18,13 +49,12 @@ body {
 }
 
 .producto h4 {
-    font-size: 2em;
+    font-size: 1.4em;
     font-weight: bold;
-    margin: 0;
 }
 
 .producto img {
-    max-width: 180px;
+    max-width: 100px;
 }
 
 .formulario {
@@ -33,12 +63,18 @@ body {
     margin-bottom: 1em;
 }
 
-#resultado h3 {
-    margin: 0;
+.formulario h3 {
+    margin-bottom: .5em;
 }
 
-#resultado p {
-    margin: 0 0 10px;
+.formulario input,
+.formulario select {
+    display: block;
+    margin-right: 1em;
+}
+
+.formulario textarea {
+    width: 100%;
 }
 
 .nav-bar {

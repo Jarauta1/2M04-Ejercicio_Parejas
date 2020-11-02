@@ -43,21 +43,15 @@ app.post("/add", function(req, res) {
         precio = rez.body.precio,
     }
 
-    let boolean = false
-
     if (seccion == "armarios") {
-        almacen.armarios.push(seccion)
-        boolean = true
+        almacen.armarios.push(add)
     } else if (seccion == "mesas") {
-        almacen.mesas.push(seccion)
-        boolean = true
+        almacen.mesas.push(add)
     } else if (seccion == "sillas") {
-        almacen.sillas.push(seccion)
-        boolean = true
+        almacen.sillas.push(add)
+
     }
-    if (boolean = false) {
-        res.send({ error: true, mensaje: "Esa seccion no existe" })
-    }
+
 })
 
 app.put("/editar", function(req, res) {
