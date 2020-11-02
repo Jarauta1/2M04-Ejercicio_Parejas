@@ -61,3 +61,33 @@ function buscarProducto() {
             }
         });
 }
+
+function addProducto() {
+
+    let seccion = document.getElementById("categorias").value
+    let nombre = document.getElementById("nombreProducto").value
+    let descripccion = document.getElementById("descripcionProducto").value
+    let img = document.getElementById("fotoProducto").value
+    let precio = parseInt(document.getElementById("precioProducto").value)
+
+    let add = { seccion: seccion, nombre: nombre, descripccion: descripccion, img: img, precio: precio }
+
+    fetch("/add", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(add),
+        })
+        .then(function(res) {
+            return res.json();
+        })
+        .then(function(data) {
+            mostrarProductos(data, "armarios");
+            mostrarProductos(data, "mesas");
+            mostrarProductos(data, "sillas");
+
+            document.getElementById('resultado').innerHTML = almacenTodo;
+
+        });
+}

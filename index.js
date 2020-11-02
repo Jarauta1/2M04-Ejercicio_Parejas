@@ -37,10 +37,10 @@ app.post("/add", function(req, res) {
     let seccion = req.body.seccion
     seccion = seccion.toLowerCase()
     let add = {
-        nombre = req.body.nombre,
-        descripccion = req.body.descripccion,
-        img = req.body.img,
-        precio = rez.body.precio,
+        nombre: nombre = req.body.nombre,
+        descripccion: descripccion = req.body.descripccion,
+        img: img = req.body.img,
+        precio: precio = req.body.precio,
     }
 
     if (seccion == "armarios") {
@@ -54,7 +54,7 @@ app.post("/add", function(req, res) {
 
 })
 
-app.put("/editar", function(req, res) {
+/* app.put("/editar", function(req, res) {
     let seccion = req.body.seccion
     seccion = seccion.toLowerCase()
     let nombre = req.body.nombre
@@ -149,6 +149,6 @@ app.delete("/borrar", function(req, res) {
     if (booleanProducto == false) {
         res.send({ error: true, mensaje: "No existe ese producto" })
     }
-})
+}) */
 
 app.listen(3000);
