@@ -83,6 +83,11 @@ function addProducto() {
             return res.json();
         })
         .then(function(data) {
+            almacenTodo = ""
+            document.getElementById("nombreProducto").value = ""
+            document.getElementById("precioProducto").value = ""
+            document.getElementById("fotoProducto").value = ""
+            document.getElementById("descripcionProducto").value = ""
             mostrarProductos(data, "armarios");
             mostrarProductos(data, "mesas");
             mostrarProductos(data, "sillas");

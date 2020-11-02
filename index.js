@@ -45,11 +45,13 @@ app.post("/add", function(req, res) {
 
     if (seccion == "armarios") {
         almacen.armarios.push(add)
+        res.send(almacen)
     } else if (seccion == "mesas") {
         almacen.mesas.push(add)
+        res.send(almacen)
     } else if (seccion == "sillas") {
         almacen.sillas.push(add)
-
+        res.send(almacen)
     }
 
 })
