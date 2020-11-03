@@ -271,3 +271,29 @@ function deleteProductoCesta(nombre) {
         })
     document.getElementById("cesta").innerHTML = mensajeCesta;
 }
+
+function comprar() {
+
+    let comprar = { compra: true }
+
+    fetch("/cesta", {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(comprar),
+        })
+        .then(function(res) {
+            return res.json();
+        })
+        .then(function(data) {
+
+
+            mensajeCesta = ""
+            window.alert(`${data.mensaje}`)
+            location.reload();
+
+
+        })
+    document.getElementById("cesta").innerHTML = mensajeCesta;
+}

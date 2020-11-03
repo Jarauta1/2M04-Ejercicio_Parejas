@@ -256,15 +256,21 @@ app.put("/cesta", function(req, res) {
     }
 })
 
-let costeTotal
+let costeTotal = 0
 
 app.delete("/cesta", function(req, res) {
 
-    for (let i = 0; i < cesta.length; i++) {
-        costeTotal = costeTotal + (cesta[i].cantidad * cesta[i].precio)
+    let comprar = req.body.compra
+    if (comprar == true) {
+        console.log(cesta)
+
+        for (let i = 0; i < cesta.length; i++) {
+            let multiplicacion = cesta[i].cantidad * cesta[i].precio
+            costeTotal = costeTotal + multiplicacion
+        }
+        cesta = []
+        res.send({ costeTotal: costeTotal, mensaje: `El total de tu compra es ${costeTotal}` })
     }
-    cesta = []
-    res.send({ costeTotal: costeTotal, mensaje: `El total de tu compra es ${costeTotal}` })
 })
 
 
