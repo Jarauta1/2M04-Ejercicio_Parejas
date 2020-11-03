@@ -12,16 +12,14 @@
 <body>
     <header>
         <h1 class="branding">IKEA</h1>
-
         <nav class="nav-bar">
             <ul>
-                <li><a href="./cesta.html">Cesta</a></li>
-                <!-- <li><a href="#">enlace 2</a></li>
-                <li><A href="#">enlace 3</A></li> -->
+                <li class="active"><a href="#">Inicio</a></li>
+                <li><a href="./cesta.html">Cesta</a>
+                    <span id="contador" class="unidades"></span>
+                </li>
             </ul>
         </nav>
-
-
     </header>
     <main>
         <!--  BUSCAR PRODUCTO  -->
@@ -45,7 +43,7 @@
                 </select>
                 <input id="nombreProducto" type="text" placeholder="nombre" />
                 <input id="precioProducto" type="text" placeholder="Precio" />
-                <input id="fotoProducto" type="text" placeholder="foto" />
+                <input id="fotoProducto" type="file" placeholder="foto" />
             </div>
             <div class="row">
                 <textarea id="descripcionProducto" name="textarea" rows="5" cols="50">Descripción del producto</textarea>

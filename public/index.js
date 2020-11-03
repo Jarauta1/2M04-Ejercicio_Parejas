@@ -1,4 +1,4 @@
-let almacenTodo = "";
+let almacenTodo = ""
 
 function mostrarProducto(data, tipo) {
 
@@ -12,7 +12,10 @@ function mostrarProducto(data, tipo) {
           <p>${data[tipo][i].descripccion}</p>
             <p>Precio: ${data[tipo][i].precio}</p>
             <p>Stock: ${data[tipo][i].stock}</p>
-            <button onclick=addCesta("${data[tipo][i].nombre}")>Comprar</button>
+            <div id="comprar">
+                <input type="number" class="unidades" id="${data[tipo][i].nombre}">
+                <button id="botonComprar" onclick=addCesta("${data[tipo][i].nombre}")>Comprar</button>
+            </div>
             </div>
             </div>
         `
@@ -57,6 +60,10 @@ function buscarProducto() {
                                 <p>${data[i].descripccion}</p>
                                 <p>Precio: ${data[i].precio}</p>
                                 <p>Stock: ${data[tipo][i].stock}</p>
+                                <div id="comprar">
+                                    <input type="number" id="unidades">
+                                    <button id="botonComprar" onclick=addCesta("${data[tipo][i].nombre}")>Comprar</button>
+                                </div>
                             </div>
                         </div>
                         `
@@ -171,19 +178,22 @@ fetch('/cesta').then(function(res) {
           <p>${data[i].descripccion}</p>
             <p>Precio: ${data[i].precio}</p>
             <p>Stock: ${data[i].stock}</p>
+            <p>Unidades: ${data[i].cantidad}</p>
+            <button id="botonEliminar" onclick=deleteProductoCesta("${data[i].nombre}")>Eliminar</button>
             </div>
             </div>
         `
     }
 
-    document.getElementById('cesta').innerHTML = mensajeCesta;
+    document.getElementById("cesta").innerHTML = mensajeCesta;
 })
 
 let productoCesta
 
 function addCesta(nombre) {
-
-    productoCesta = { nombre: nombre }
+    let cantidad = parseInt(document.getElementById(nombre).value)
+    console.log(cantidad)
+    productoCesta = { nombre: nombre, cantidad: cantidad }
 
     fetch("/cesta", {
             method: "POST",
@@ -196,21 +206,68 @@ function addCesta(nombre) {
             return res.json();
         })
         .then(function(data) {
-            for (let i = 0; i < data.length; i++) {
+
+            if (data.error == true) {
+                window.alert(`${data.mensaje}`)
+            }
+
+            for (let i = 0; i < data.cesta.length; i++) {
                 mensajeCesta += `
                 <div class="producto">
-                <img src="${data[i].img}" alt="${data[i].nombre}">
+                <img src="${data.cesta[i].img}" alt="${data.cesta[i].nombre}">
                 <div class="info-producto">
-                <h4>${data[i].nombre}</h4>
-                  <p>${data[i].descripccion}</p>
-                    <p>Precio: ${data[i].precio}</p>
-                    <p>Stock: ${data[i].stock}</p>
-                    </div>
-                    </div>
+                <h4>${data.cesta[i].nombre}</h4>
+                  <p>${data.cesta[i].descripccion}</p>
+                    <p>Precio: ${data.cesta[i].precio}</p>
+                    <p>Stock: ${data.cesta[i].stock}</p>
+                    <p>Unidades: ${data.cesta[i].cantidad}</p>
+                    <button id="botonEliminar" onclick=deleteProductoCesta("${data.cesta[i].nombre}")>Eliminar</button>
+                </div>
+            </div>
                 `
             }
 
-            document.getElementById('cesta').innerHTML = mensajeCesta;
+            window.alert(`${data.mensaje}`)
+            document.getElementById("cesta").innerHTML = mensajeCesta;
 
         });
+}
+
+function deleteProductoCesta(nombre) {
+    productoCesta = {
+        nombre: nombre,
+    }
+
+    fetch("/cesta", {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(productoCesta),
+        })
+        .then(function(res) {
+            return res.json();
+        })
+        .then(function(data) {
+            for (let i = 0; i < data.cesta.length; i++) {
+
+                mensajeCesta += `
+                <div class="producto">
+                <img src="${data.cesta[i].img}" alt="${data.cesta[i].nombre}">
+                    <div class="info-producto">
+                        <h4>${data.cesta[i].nombre}</h4>
+                        <p>${data.cesta[i].descripccion}</p>
+                        <p>Precio: ${data.cesta[i].precio}</p>
+                        <p>Stock: ${data.cesta[i].stock}</p>
+                        <p>Unidades: ${data.cesta[i].cantidad}</p>
+                        <button id="botonEliminar" onclick=deleteProductoCesta("${data.cesta[i].nombre}")>Eliminar</button>
+                        </div>
+                </div>
+                `
+                window.alert(`${data.mensaje}`)
+                location.reload();
+
+            }
+        })
+    document.getElementById("cesta").innerHTML = mensajeCesta;
 }

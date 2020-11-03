@@ -7,9 +7,12 @@ app.use(express.json());
 
 let almacen = require("./almacen")
 let cesta = []
+let numeroCesta
 
 app.get("/almacen", function(req, res) {
-    res.send(almacen)
+    res.send(almacen);
+    numeroCesta = cesta.length
+    document.getElementById("contador").innerHTML = `${numeroCesta}`
 })
 
 app.get("/almacen/:seccion", function(req, res) {
@@ -164,15 +167,37 @@ app.get("/cesta", function(req, res) {
 
 app.post("/cesta", function(req, res) {
     let nombre = req.body.nombre
+    let cantidad = parseInt(req.body.cantidad)
 
     let booleanCesta = false
+
+    if (cesta[0] != undefined) {
+
+        for (let i = 0; i < cesta.length; i++) {
+            if (nombre == cesta[i].nombre) {
+                let suma = cesta[i].cantidad + cantidad
+                if (suma <= cesta[i].stock) {
+                    cesta[i].cantidad += cantidad
+                    booleanCesta = true
+                } else {
+                    booleanCesta = true
+                    res.send({ error: true, mensaje: "No hay suficiente stock" })
+                }
+            }
+        }
+    }
 
     if (booleanCesta == false) {
         for (let i = 0; i < almacen.armarios.length; i++) {
             if (nombre == almacen.armarios[i].nombre) {
-                cesta.push(almacen.armarios[i])
-                booleanCesta = true
-                res.send(cesta)
+                if (cantidad <= almacen.armarios[i].stock) {
+                    almacen.armarios[i].cantidad = cantidad
+                    cesta.push(almacen.armarios[i])
+                    booleanCesta = true
+                    res.send({ cesta: cesta, mensaje: `Has añadido ${almacen.armarios[i].nombre} a tu cesta` })
+                } else {
+                    res.send({ error: true, mensaje: "No hay suficiente stock" })
+                }
             }
         }
     }
@@ -180,30 +205,67 @@ app.post("/cesta", function(req, res) {
     if (booleanCesta == false) {
         for (let i = 0; i < almacen.mesas.length; i++) {
             if (nombre == almacen.mesas[i].nombre) {
-                cesta.push(almacen.mesas[i])
-                booleanCesta = true
-                res.send(cesta)
-            }
-        }
-    }
-    if (booleanCesta == false) {
-        for (let i = 0; i < almacen.sillas.length; i++) {
-            if (nombre == almacen.sillas[i].nombre) {
-                cesta.push(almacen.sillas[i])
-                booleanCesta = true
-                res.send(cesta)
+                if (cantidad <= almacen.mesas[i].stock) {
+                    almacen.mesas[i].cantidad = cantidad
+                    cesta.push(almacen.mesas[i])
+                    booleanCesta = true
+                    res.send({ cesta: cesta, mensaje: `Has añadido ${almacen.mesas[i].nombre} a tu cesta` })
+                } else {
+                    res.send({ error: true, mensaje: "No hay suficiente stock" })
+                }
             }
         }
     }
 
-    if (booleanProducto == false) {
+    if (booleanCesta == false) {
+        for (let i = 0; i < almacen.sillas.length; i++) {
+            if (nombre == almacen.sillas[i].nombre) {
+                if (cantidad <= almacen.mesas[i].stock) {
+                    almacen.sillas[i].cantidad = cantidad
+                    cesta.push(almacen.sillas[i])
+                    booleanCesta = true
+                    res.send({ cesta: cesta, mensaje: `Has añadido ${almacen.sillas[i].nombre} a tu cesta` })
+                } else {
+                    res.send({ error: true, mensaje: "No hay suficiente stock" })
+                }
+            }
+        }
+    }
+
+
+
+
+
+    if (booleanCesta == false) {
         res.send({ error: true, mensaje: "No existe ese producto" })
     }
-    cesta.push(carrito)
+
     res.send(cesta)
 
 })
 
+app.put("/cesta", function(req, res) {
+    let nombre = req.body.nombre
+
+    for (let i = 0; i < cesta.length; i++) {
+        if (cesta[i].nombre === nombre) {
+            res.send({ cesta: cesta, mensaje: `Has eliminado ${cesta[i].nombre} de tu cesta` })
+            cesta.splice(i, 1);
+
+        }
+    }
+})
+
+let costeTotal
+
+app.delete("/cesta", function(req, res) {
+
+    for (let i = 0; i < cesta.length; i++) {
+        costeTotal = costeTotal + (cesta[i].cantidad * cesta[i].precio)
+    }
+    cesta = []
+    res.send({ costeTotal: costeTotal, mensaje: `El total de tu compra es ${costeTotal}` })
+})
 
 
 
